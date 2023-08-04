@@ -1,0 +1,15 @@
+/* InsideCard.css */
+
+/* Add styles for the hover effect */
+.custom-card:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    transition: transform 0.3s ease;
+  }
+  
+  /* Add styles for unread cards */
+  .unread-card {
+    background: #e57373;
+    color: white;
+  }
+  

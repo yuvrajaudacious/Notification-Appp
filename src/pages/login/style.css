@@ -1,0 +1,21 @@
+.loginpage{
+      background-image: url('../../Assets/back.jpeg');
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+}
+
+
+.loginContainer{
+      width: 30rem;
+      color: rgb(19, 14, 14);
+      background-color: white;
+      height: 25rem;
+      padding: 4rem;
+      border-radius: 20px;
+      position: absolute;
+      right: 12rem;
+      top: 17rem;
+      
+}
