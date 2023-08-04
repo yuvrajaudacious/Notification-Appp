@@ -7,9 +7,6 @@ import {
   isReadAllNotification,
 } from "../../services/services";
 import { useQuery } from "@tanstack/react-query";
-// import { formatDistanceToNow } from "date-fns";
-git config [--global] user.name "yuvrajaudacious"
-
 import { useIsReadNotification } from "../hooks/hooks";
 import { BellFilled, PoweroffOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
