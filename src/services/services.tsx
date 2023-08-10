@@ -41,9 +41,9 @@ export const isReadAllNotification = () => {
     "GET"
   );
 };
-export const isDeleteNotification = () => {
+export const isDeleteNotification = (id:string) => {
   return ApiCaller(
-    `api/notification/remove-notification`,
+    `api/notification/remove-notification/${id}`,
     "http://localhost:4000/",
     {},
     "DELETE"

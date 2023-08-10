@@ -1,40 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { Button, Card } from "antd";
-import { InsideCard } from "../../components/notifycard/Card";
+import { useQuery } from "@tanstack/react-query";
+import { Button } from "antd";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { InsideCard } from "../../components/notifycard/Card";
 import {
   getNotification,
   isReadAllNotification,
 } from "../../services/services";
-import { useQuery } from "@tanstack/react-query";
-// import { formatDistanceToNow } from "date-fns";
-git config [--global] user.name "yuvrajaudacious"
 
-import { useIsReadNotification } from "../hooks/hooks";
-import { BellFilled, PoweroffOutlined } from "@ant-design/icons";
+import { BellFilled } from "@ant-design/icons";
 import { toast } from "react-toastify";
-
+import { useDeleteNotification, useIsReadNotification } from "../hooks/hooks";
 const Notification = () => {
   const [enable, setEnable] = useState(false);
   const navigate = useNavigate();
   const [loadings, setLoadings] = useState<boolean[]>([]);
-  
+
   const [notificationData, setNotificationData] = useState([]);
   const { mutateAsync: isReadMutation } = useIsReadNotification();
+  const { mutateAsync: deltenotification } = useDeleteNotification();
   const { isFetched, refetch } = useQuery(
     ["getNotification"],
     getNotification,
     {
       onSuccess: (data: any) => setNotificationData(data.data.data.reverse()),
     }
-    );
-    
-    useEffect(() => {
-      refetch();
-    }, [enable]);
-    
-    const handleClick = async (e: any) => {
-      const id = e.target.getAttribute("data-id");    try {
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [enable]);
+
+  const handleClick = async (id: any) => {
+    try {
       const { data } = await isReadMutation(id);
       console.log(data);
       navigate(`/notification/${id}`);
@@ -49,18 +47,15 @@ const Notification = () => {
   console.log(data);
 
   const handleReadAllNotification = () => {
-    console.log("all notification treated successfully");
     toast.info("Plz Wait Read a all notification");
 
     setEnable(true);
     setTimeout(() => {
-      setEnable(false);
+      setEnable(true);
 
       refetch();
-    }, 1000);
-
+    }, 4000);
   };
-
 
   const enterLoading = (index: number) => {
     setLoadings((prevLoadings) => {
@@ -74,13 +69,18 @@ const Notification = () => {
         const newLoadings = [...prevLoadings];
         newLoadings[index] = false;
         return newLoadings;
-        
       });
       toast.success("all notification treated successfully");
     }, 4000);
   };
+  const onDelete = async (id: any) => {
+    try {
+      const data = await deltenotification(id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  
   return (
     <div
       style={{
@@ -105,19 +105,22 @@ const Notification = () => {
             marginBottom: "10px", // Add some spacing
           }}
         >
-          <span>Notification          <BellFilled />
+          <span>
+            Notification <BellFilled />
           </span>
-          <div style={{
-
-            marginRight: "1%",
-          }}>
-
-            <Button type="primary"
-              loading={loadings[0]} onClick={() => {
+          <div
+            style={{
+              marginRight: "1%",
+            }}
+          >
+            <Button
+              type="primary"
+              loading={loadings[0]}
+              onClick={() => {
                 enterLoading(0);
                 handleReadAllNotification();
-
-              }} >
+              }}
+            >
               Read All
             </Button>
           </div>
@@ -132,8 +135,8 @@ const Notification = () => {
                   text={el.message}
                   id={el._id}
                   isRead={el.isRead}
+                  onDelete={onDelete}
                 />
-              
               </div>
             );
           })}

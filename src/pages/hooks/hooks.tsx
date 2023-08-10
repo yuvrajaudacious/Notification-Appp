@@ -62,7 +62,7 @@ export const useDeleteNotification = () => {
   const queryClient = useQueryClient();
   return useMutation(isDeleteNotification, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["Delete"]);
+      queryClient.invalidateQueries(["getNotification"]);
     },
   });
 };

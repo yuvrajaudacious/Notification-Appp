@@ -1,38 +1,48 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Form, Input, Select } from "antd";
-import { useAddNotification, useAddUser } from "../hooks/hooks";
+import { useAddUser } from "../hooks/hooks";
 import { toast } from "react-toastify";
 
 const { Option } = Select;
 
+interface UserFormData {
+  name: string;
+  email: string;
+  password: string;
+  DOB: string;
+  DOJ: string;
+  Department: string;
+}
+
 const AdminPage = () => {
-  const [inputData, setInputData] = useState({});
-  const [notificationInput, setNotificationInput] = useState({});
   const [form] = Form.useForm();
-  const [notificationForm] = Form.useForm();
 
   const { mutateAsync: addUserMutation } = useAddUser();
-  const { mutateAsync: addNotificationMutation } = useAddNotification();
 
-  const handleAddUser = async () => {
+  const handleAddUser = async (values: UserFormData) => {
     try {
-      const values = await form.validateFields();
       const { data } = await addUserMutation(values);
       console.log(data.message);
       toast.success(data.message);
-    } catch (error: any) {
-      console.log(error.message);
+    } catch (error) {
+      const err = error as Error;
+      console.log(err.message);
     }
   };
 
-  const handleNotificationSubmit = async () => {
+  const handleAddUserFormSubmit = async () => {
     try {
-      const values = await notificationForm.validateFields();
-      const { data } = await addNotificationMutation(values);
-      toast.success(data.message);
-    } catch (error: any) {
+      const values = await form.validateFields();
+      await handleAddUser(values);
+    } catch (error) {
       console.log(error);
     }
+  };
+
+  const calculateMaxDate = () => {
+    const currentDate = new Date();
+    currentDate.setFullYear(currentDate.getFullYear() - 18);
+    return currentDate.toISOString().split("T")[0];
   };
 
   return (
@@ -42,7 +52,7 @@ const AdminPage = () => {
         <Form
           form={form}
           layout="vertical"
-          onFinish={handleAddUser}
+          onFinish={handleAddUserFormSubmit}
         >
           <Form.Item
             label="Name"
@@ -71,9 +81,18 @@ const AdminPage = () => {
           <Form.Item
             label="Date Of Birth"
             name="DOB"
-            rules={[{ required: true, message: "Please enter DOB" }]}
+            rules={[
+              { required: true, message: "Please enter DOB" },
+              // {np
+              //   validator: (_, value) => {
+              //     if (value) {
+                   
+              //     }
+              //   },
+              // },
+            ]}
           >
-            <Input type="date" />
+            <Input type="date" max={calculateMaxDate()} />
           </Form.Item>
           <Form.Item
             label="Date Of Joining"
@@ -99,7 +118,6 @@ const AdminPage = () => {
           </Button>
         </Form>
       </div>
-     
     </div>
   );
 };
