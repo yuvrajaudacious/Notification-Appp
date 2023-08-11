@@ -20,7 +20,7 @@ export const InsideCard: React.FC<CardProps> = ({
   onDelete,
 }) => {
   const readBackgroundColor = "dark";
-  const unreadBackgroundColor = "#73e573"; // You can change this color
+  const unreadBackgroundColor = "#73e573"; // Change this color to green
   const [loadings, setLoadings] = useState<boolean[]>([]);
   const [loading, setLoading] = useState<boolean[]>([]);
 
@@ -104,7 +104,7 @@ export const InsideCard: React.FC<CardProps> = ({
             }}
             style={buttonMargin}
             loading={loadings[1]}
-            disabled={!isRead} 
+            disabled={!isRead}
           >
             Delete
           </Button>

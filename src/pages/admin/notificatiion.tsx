@@ -41,7 +41,7 @@ const Notifications = () => {
                 >
                     <Input.TextArea placeholder="Enter Notification Content" />
                 </Form.Item>
-                <hr />
+            
                 <Form.Item
                     label="Department"
                     name="Department"

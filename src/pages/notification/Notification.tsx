@@ -8,9 +8,10 @@ import {
   isReadAllNotification,
 } from "../../services/services";
 
-import { BellFilled } from "@ant-design/icons";
+import { useIsReadNotification } from "../hooks/hooks";
+import { BellFilled, PoweroffOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
-import { useDeleteNotification, useIsReadNotification } from "../hooks/hooks";
+import { useDeleteNotification } from "../hooks/hooks";
 const Notification = () => {
   const [enable, setEnable] = useState(false);
   const navigate = useNavigate();
@@ -124,6 +125,7 @@ const Notification = () => {
               Read All
             </Button>
           </div>
+         
         </div>
 
         {isFetched &&

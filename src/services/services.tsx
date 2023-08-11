@@ -49,3 +49,11 @@ export const isDeleteNotification = (id:string) => {
     "DELETE"
   );
 };
+export const isDeleteallNotification = (id:string) => {
+  return ApiCaller(
+    `api/notification/removeall-notification/`,
+    "http://localhost:4000/",
+    {},
+    "DELETE"
+  );
+};
